@@ -1,0 +1,19 @@
+version: '3'
+services:
+  heapspapray:
+    build: .
+    image: heapspapray
+    user: heapspapray
+    container_name: heapspapray
+    ports:
+      - "8890:8890"
+    networks:
+      - heapspapray
+    restart: always
+
+networks:
+  heapspapray:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "heapspapray"

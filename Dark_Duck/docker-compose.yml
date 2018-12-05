@@ -1,0 +1,20 @@
+version: '3'
+services:
+  dark-duck:
+    build: .
+    image: dark-duck
+    container_name: dark-duck
+    environment:
+      - APACHE_ENVVARS=/etc/apache2/envvars
+    ports:
+      - '7070:80'
+    networks:
+      - dark-duck
+    restart: always
+
+networks:
+  dark-duck:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "dark-duck"

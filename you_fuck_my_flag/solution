@@ -1,0 +1,59 @@
+Le dump est un dump de disque (plusieurs partitions) :
+$ file dump.img
+dump.img: DOS/MBR boot sector
+$ fdisk -l dump.img :
+Device     Boot   Start     End Sectors  Size Id Type
+dump.img1  *       2048 1562623 1560576  762M 83 Linux
+dump.img2       1564670 1953791  389122  190M  5 Extended
+dump.img3       1562624 1564669    2046 1023K 83 Linux
+dump.img4       1953792 2097151  143360   70M 83 Linux
+dump.img5       1564672 1953791  389120  190M 82 Linux swap / Solaris
+
+Sur la partition principale, on trouve 2 informations importantes :
+- le fichier /etc/shadow qui contient notamment le mot de passe de l'utilisateur 'user' (smile4me, trouvable en peu de temps avec john)
+- le bash_history de cet utilisateur :
+cd
+cd crypt
+mkdir perso
+mkdir travail
+cd travail
+vi flag
+cd ~
+umount crypt
+luksClose crypt
+vgremove vol
+
+Les repertoires de configuration de lvm montre qu'il y a eu un volume lvm mais il n'est plus présent. Le physical volume se nome pv0 (qu'on trouve dans le repertoire archive de lvm : /etc/lvm/archive). 
+
+Le volume logique se nomme "vol" :
+$ vgcfgrestore --list pv0 -f /mnt/etc/lvm/archive/vol_00002-1282018731.vg  
+   
+  File:     /mnt/etc/lvm/archive/vol_00002-1282018731.vg
+  VG name:     vol
+  Description: Created *before* executing 'vgremove vol'
+  Backup Time: Sat Mar 10 20:02:28 2018
+
+Il faut le restaurer : 
+* d abord le pv : 
+pvcreate /dev/loop0 --restorefile /mnt/etc/lvm/archive/vol_00002-1282018731.vg --uuid vJXFp5-tcKs-fJhC-Ydh8-IiPh-IwQc-pGhHvQ
+* puis le vg : 
+$ vgcfgrestore vol  -f /mnt/etc/lvm/archive/vol_00002-1282018731.vg
+  Restored volume group vol
+
+on peut ensuite verifier avec pvscan puis activer le volume :
+vgchange -a y vol
+quand on le monte on se rend compte que c est un luks
+Le mot de passe est le meme que celui de l'utilisateur (smile4me) trouvé dans le /etc/shadow
+
+cryptsetup luksOpen /dev/vol/chall crypt
+mount /dev/mapper/crypt /mnt2
+
+il faut maintenant retrouver les fichiers effacés dans le disque (utilisation de sleuthkit) :
+
+$ fls -f ext3 -d -v -r -p /dev/mapper/crypt  > removed.files
+root@zener:~$ cat removed.files
+r/r * 13162:   travail/.swp
+
+extundelete --restore-all /dev/mapper/crypt permet de recuperer le .swp
+$ strings .swp : donne le flag
+Lvm1sn0Tde@d

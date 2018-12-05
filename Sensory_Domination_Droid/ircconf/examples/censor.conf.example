@@ -1,0 +1,12 @@
+# Configuration file for m_censor.so
+
+# The tags for this module are formatted as follows:
+#
+# <badword text="simple word"
+#          replace="text to replace with">
+#
+# You can specify <badword text="simple word" replace="">
+# to block lines containing the word
+
+<badword text="shit" replace="poo">
+<badword text="fuck" replace="(censored)">

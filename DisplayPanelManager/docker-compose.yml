@@ -1,0 +1,18 @@
+version: '3'
+services:
+  panelmanag:
+    build: .
+    image: panelmanag
+    container_name: panelmanag
+    ports:
+      - "2323:2323"
+    networks:
+      - panelmanag
+    restart: always
+
+networks:
+  panelmanag:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "panelmanag"

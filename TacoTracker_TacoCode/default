@@ -1,0 +1,24 @@
+server {
+	listen 8080 default_server;
+	listen [::]:8080 default_server;
+
+	server_tokens off;
+
+	root /var/www;
+	
+	index index.encoded;
+
+	server_name _;
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+
+	location ~ \.encoded$ {
+		try_files $uri =404;
+		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+                fastcgi_index index.encoded;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+	}
+}

@@ -1,0 +1,19 @@
+version: '3'
+services:
+  toctoctoc:
+    build: .
+    image: toctoctoc
+    container_name: toctoctoc
+    user: chall
+    ports:
+      - "30000:30000"
+    networks:
+      - toctoctoc
+    restart: always
+
+networks:
+  toctoctoc:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "toctoctoc"

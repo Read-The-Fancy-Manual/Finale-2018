@@ -1,0 +1,21 @@
+# Author: noraj
+# Author website: https://rawsec.ml
+version: '3'
+services:
+  server:
+    build: .
+    ports:
+      - '4567:4567'
+    image: webserver_7
+    container_name: webserver_7
+    networks:
+      server:
+    user: appuser
+    restart: always
+
+networks:
+  server:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "webserver_7"

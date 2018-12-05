@@ -1,0 +1,19 @@
+version: '3'
+services:
+  tacoded_tacotracker:
+    build: .
+    image: tacoded_tacotracker
+    user: root
+    container_name: tacoded_tacotracker
+    ports:
+      - "8080:8080"
+    networks:
+      - tacoded_tacotracker
+    restart: always
+
+networks:
+  tacoded_tacotracker:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "tacotracker"

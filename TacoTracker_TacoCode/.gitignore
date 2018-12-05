@@ -1,0 +1,8 @@
+.DS_Store
+.libs
+Makefile*
+*.log
+*.la
+*.lo
+libtool
+modules

@@ -1,0 +1,20 @@
+version: '3'
+services:
+  jigsaw:
+    build: .
+    image: jigsaw
+    container_name: jigsaw
+    environment:
+      - APACHE_ENVVARS=/etc/apache2/envvars
+    restart: always
+    ports:
+      - '8081:80'
+    networks:
+        jigsaw:
+
+networks:
+    jigsaw:
+      driver: bridge
+      driver_opts:
+        com.docker.network.bridge.enable_ip_masquerade: "false"
+        com.docker.network.bridge.name: "jigsaw"

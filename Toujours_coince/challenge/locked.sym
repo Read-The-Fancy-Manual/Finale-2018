@@ -1,0 +1,10 @@
+; this file was created with wlalink by ville helin <vhelin@iki.fi>.
+; no$gmb symbolic information for "locked.gb".
+0000:0150 start
+0000:01d1 VBlank
+0000:0279 level1
+0000:02c0 level2
+0000:0387 level3
+0000:054b initMap01
+0000:05c2 initMap02
+0000:06a0 initMap03

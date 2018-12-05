@@ -1,0 +1,19 @@
+version: '3'
+services:
+  rabindbois:
+    build: .
+    image: rabindbois
+    user: dock
+    container_name: rabindbois
+    ports:
+      - "8888:8888"
+    networks:
+      - rabindbois
+    restart: always
+
+networks:
+  rabindbois:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "rabindbois"

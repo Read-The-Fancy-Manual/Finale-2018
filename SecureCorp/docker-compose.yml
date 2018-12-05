@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  securecorp:
+    build: .
+    image: securecorp
+    user: chall
+    container_name: securecorp
+    ports:
+      - "4445:4445"
+    networks:
+      - securecorp
+    restart: always
+
+networks:
+  securecorp:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "securecorp"

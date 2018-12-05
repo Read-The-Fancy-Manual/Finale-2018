@@ -1,0 +1,3 @@
+cffi
+python-camellia
+pydle

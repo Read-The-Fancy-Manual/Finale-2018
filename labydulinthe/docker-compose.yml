@@ -1,0 +1,23 @@
+version: "3"
+services:
+
+  labydulinthe:
+    container_name: labydulinthe
+    build: .
+    image: labydulinthe
+    user: chall
+    ports:
+      - 10000:10000
+    networks:
+      - labydulinthe
+    volumes:
+      - ./chall:/home/chall
+    working_dir: /home/chall
+    restart: always
+
+networks:
+  labydulinthe:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "labydulint"

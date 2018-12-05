@@ -1,0 +1,19 @@
+version: '3'
+services:
+  spacedating:
+    build: .
+    image: spacedating
+    user: spacedating
+    container_name: spacedating
+    ports:
+      - "6969:6969"
+    networks:
+      - spacedating
+    restart: always
+
+networks:
+  spacedating:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "spacedating"

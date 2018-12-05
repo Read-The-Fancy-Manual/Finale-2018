@@ -1,0 +1,19 @@
+version: '3'
+services:
+  license5:
+    build: .
+    image: license5
+    user: chall
+    container_name: license5
+    ports:
+      - "5000:5000"
+    networks:
+      - license5
+    restart: always
+
+networks:
+  license5:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+      com.docker.network.bridge.name: "license5"

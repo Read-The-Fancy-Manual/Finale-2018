@@ -1,0 +1,31 @@
+FROM debian:stretch-20180831
+LABEL maintainer="celelibi@gmail.com"
+ARG DEBIAN_FRONTEND=noninteractive
+
+# hardening
+RUN chmod o-x /usr/bin/wall
+RUN chmod o-rx /var/log /run/*
+RUN sed -i 's/664/660/g' /var/lib/dpkg/info/base-files.postinst
+RUN chmod 773 /tmp
+
+# date
+RUN ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime
+RUN dpkg-reconfigure -f noninteractive tzdata
+
+RUN apt-get update \
+	&& apt-get install -y \
+		socat \
+		python3 \
+		python3-numpy \
+		python3-scipy \
+		python3-sklearn \
+	&& apt-get clean \
+	&& rm -fr /var/lib/apt/lists/*
+
+COPY server.easy.py server.py
+RUN adduser --disabled-password --force-badname --gecos '' spacedating
+USER spacedating
+
+ENV LANG C.UTF-8
+ENTRYPOINT ["socat", "TCP-LISTEN:6969,fork,reuseaddr", "EXEC:./server.py,nofork"]
+EXPOSE 6969

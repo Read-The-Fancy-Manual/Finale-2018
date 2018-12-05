@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS creditcard (
+cc INT NULL,
+cctype VARCHAR(38) NULL,
+currencycode VARCHAR(3) NULL
+);
+
+INSERT INTO creditcard VALUES
+(633325856376419918,"switch","IDR"),
+(5002356737596588,"mastercard","EUR"),
+(67717659577148311,"laser","BWP"),
+(4905332114068435,"switch","CNY"),
+(201820680592415,"sigsegv{N0rAj_d3_MA_SqL1_d3S_Fam1lL3S}","IDR"),
+(6304171677295395,"laser","PHP"),
+(6331100915342195,"switch","EUR"),
+(201586814918988,"diners-club-enroute","RUB"),
+(3570431070577565,"jcb","IDR"),
+(561026187281281283,"china-unionpay","RUB");

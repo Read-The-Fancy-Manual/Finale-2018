@@ -1,0 +1,5 @@
+Order deny,allow
+Allow from all
+<Files "flag.txt">
+    Deny from all
+</Files>

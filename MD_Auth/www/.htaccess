@@ -1,0 +1,3 @@
+<Files mdauth.db>
+	Require all denied
+</Files>

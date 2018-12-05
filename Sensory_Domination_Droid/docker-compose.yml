@@ -1,0 +1,34 @@
+# Author: noraj
+# Author website: https://rawsec.ml
+version: '3'
+services:
+  irc:
+    image: inspircd/inspircd-docker
+    ports:
+      - '6697:6697'
+    container_name: irc-bot-inspircd
+    networks:
+      irc-bot:
+    volumes:
+      - ./ircconf:/inspircd/conf/
+    restart: always
+    user: inspircd
+  bot:
+    build: .
+    image: irc-bot
+    environment:
+      ENV_IP: irc
+    container_name: irc-bot
+    depends_on:
+      - irc
+    networks:
+      irc-bot:
+    user: appuser
+    restart: always
+
+networks:
+  irc-bot:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "true" # besoin internet
+      com.docker.network.bridge.name: "irc-bot"
