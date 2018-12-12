@@ -1,0 +1,42 @@
+version: '3'
+services:
+    pdebugging:
+        build: .
+        image: pdebugging
+        container_name: pdebugging
+        restart: always
+        user: pdebugging
+        depends_on:
+            - db
+        ports:
+            - "8001:8001"
+        networks:
+            pdebugging:
+            pdebugging_internal:
+
+    db:
+        image: mysql:5.7
+        restart: always
+        container_name: pdebugging-db
+        environment:
+            MYSQL_ROOT_PASSWORD: Doh0Ieghei9oop0tookow6ev1aequ0taichugh8kiewuhai8ai
+            MYSQL_USER: pdebugging
+            MYSQL_PASSWORD: yo2yoh4xoomah2xee2Hij6aiSh6oajee4Eecie0thoh3Xeithi
+            MYSQL_DATABASE: ProductionDebugging
+        volumes:
+            - ./db:/docker-entrypoint-initdb.d/:ro
+        networks:
+            pdebugging_internal:
+        # default user used to launch container
+        user: mysql
+        # This command is required to set important mariadb defaults
+        command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
+
+networks:
+    pdebugging:
+        driver: bridge
+        driver_opts:
+            com.docker.network.bridge.enable_ip_masquerade: "false"
+            com.docker.network.bridge.name: "pdebugging"
+    pdebugging_internal:
+        internal: true
